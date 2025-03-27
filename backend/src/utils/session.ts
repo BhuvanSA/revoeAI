@@ -62,7 +62,7 @@ export const createSession = async (
     const cookieOptions: CookieOptions = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "lax",
         path: "/",
         expires: new Date(Date.now() + expiresInMs),
     };
