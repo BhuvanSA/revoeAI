@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
-// import tableRoutes from "./routes/table.routes";
+// import tableRoutes from "./routes/table.routes.ts";
 // import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
@@ -18,8 +18,10 @@ app.use(
 );
 app.use(express.json());
 
-// Routes
+// Auth
 app.use("/api/auth", authRoutes);
+
+// Tables
 // app.use("/api/tables", tableRoutes);
 
 // Basic route
