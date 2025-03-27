@@ -1,14 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/server.js",
   "scripts": {
+    "build": "npm install --save-dev @types/node && tsc --project tsconfig.json && tsx scripts/copyFiles.ts",
     "start": "node dist/server.js",
     "dev": "nodemon --exec tsx server.ts",
-    "debug": "nodemon --inspect server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --project tsconfig.json && tsx scripts/copyFiles.ts",
-    "postinstall": "prisma generate",
     "clean": "rm -rf dist"
   },
   "author": "",
@@ -16,31 +14,22 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.5.0",
-    "@types/dotenv": "^6.1.1",
-    "@types/socket.io-client": "^1.4.36",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "google-auth-library": "^9.15.1",
-    "google-spreadsheet": "^4.1.4",
-    "googleapis": "^148.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "google-auth-library": "^9.0.0",
+    "google-spreadsheet": "^4.1.0",
     "jose": "^6.0.10",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io": "^4.8.1"
   },
-  "type": "module",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.8",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.13.14",
-    "@types/socket.io": "^3.0.1",
-    "nodemon": "^2.0.22",
-    "prisma": "^6.5.0",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.17.28",
+    "nodemon": "^3.0.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   }
 }
