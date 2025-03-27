@@ -1,13 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prismaClientSingleton = () => {
-    return new PrismaClient({
-        transactionOptions: {
-            maxWait: 15000,
-            timeout: 60000,
-        },
-    });
-};
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+const prisma = global.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") {
+    global.prisma = prisma;
+}
 export default prisma;
-if (process.env.NODE_ENV !== "production")
-    globalThis.prismaGlobal = prisma;

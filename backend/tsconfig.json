@@ -5,14 +5,23 @@
         "moduleResolution": "NodeNext",
         "outDir": "./dist",
         "rootDir": ".",
-        "esModuleInterop": true,
         "strict": false,
+        "esModuleInterop": true,
         "skipLibCheck": true,
-        "typeRoots": ["./node_modules/@types", "./src/types"]
+        "forceConsistentCasingInFileNames": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "typeRoots": ["./node_modules/@types", "./src/types"],
+        "types": ["node"],
+        "lib": ["ES2020"]
     },
-    "include": ["**/*.ts", "src/types/*.d.ts"],
-    "exclude": ["node_modules", "dist"],
-    "ts-node": {
-        "esm": true
-    }
+    "include": [
+        "**/*.ts",
+        "src/**/*.ts",
+        "prisma/**/*.ts",
+        "lib/**/*.ts",
+        "scripts/**/*.ts"
+    ],
+    "exclude": ["node_modules", "dist"]
 }
