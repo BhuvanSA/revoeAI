@@ -59,10 +59,12 @@ export const createSession = async (
     const token = await encrypt(payload);
     const expiresInMs = parseTimeString(EXPIRES_IN as string);
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     const cookieOptions: CookieOptions = {
         httpOnly: true,
-        secure: true,
-        sameSite: "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
         path: "/",
         expires: new Date(Date.now() + expiresInMs),
     };
@@ -80,10 +82,12 @@ export const getSession = async (
 };
 
 export const clearSession = (res: Response): void => {
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("session", {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
         path: "/",
     });
 };
