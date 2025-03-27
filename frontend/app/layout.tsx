@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthContextProvider from "@/contexts/auth-context";
 import { ThemeProvider } from "@/contexts/theme-provider";
 import { NavbarDemo } from "@/components/Navbar";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
                     <AuthContextProvider>
                         <NavbarDemo />
                         {children}
+                        <Toaster />
                     </AuthContextProvider>
                 </ThemeProvider>
             </body>

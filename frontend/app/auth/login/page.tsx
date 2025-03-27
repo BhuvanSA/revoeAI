@@ -55,10 +55,10 @@ export default function SignIn() {
             });
             if (response.data.success) {
                 setIsLoggedIn(true);
+                router.push("/dashboard");
                 toast.success("Login successful!", {
                     description: "You have been logged in successfully",
                 });
-                router.push("/dashboard");
             } else {
                 form.setError("email", {
                     type: "manual",
