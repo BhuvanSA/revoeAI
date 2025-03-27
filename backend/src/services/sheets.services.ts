@@ -9,19 +9,14 @@ import { cache } from "./cache.services.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Read and parse secrets.json
-const creds = JSON.parse(
-    readFileSync(join(__dirname, "../../secrets.json"), "utf-8")
-);
-
 const SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
 ];
 
 const jwt = new JWT({
-    email: creds.client_email,
-    key: creds.private_key,
+    email: process.env.CLIENT_EMAIL, // Use environment variable for security
+    key: process.env.PRIVATE_KEY, // Use environment variable for security
     scopes: SCOPES,
 });
 
