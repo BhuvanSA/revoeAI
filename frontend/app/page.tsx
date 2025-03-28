@@ -45,9 +45,11 @@ export default function Home() {
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>
-                        <Button variant="outline" size="lg">
-                            Watch Demo
-                        </Button>
+                        <Link href="https://www.loom.com/share/8e942a9477ac4ad1b32d32da5ea49804?sid=70873101-7ace-4474-9152-c5bdcd1997d5">
+                            <Button variant="outline" size="lg">
+                                Watch Demo
+                            </Button>
+                        </Link>
                     </div>
                 </div>
                 <div className="md:w-1/2">
