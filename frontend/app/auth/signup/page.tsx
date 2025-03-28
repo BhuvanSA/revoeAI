@@ -51,7 +51,6 @@ export default function SignUp() {
     const router = useRouter();
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { setIsLoggedIn } = useAuthContext();
 
     const form = useForm<z.infer<typeof signupSchema>>({
         resolver: zodResolver(signupSchema),
@@ -70,7 +69,6 @@ export default function SignUp() {
                 password: values.password,
             });
             if (response.data.success) {
-                setIsLoggedIn(true);
                 router.replace("/auth/login");
                 toast.success("Account created successfully!", {
                     description: "Welcome to RevoeAI",
