@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useCallback, useState, useMemo } from "react";
 import { io, Socket } from "socket.io-client";
 import { useAuthContext } from "@/contexts/auth-context";
 import { DataTable } from "./DataTable";
@@ -55,32 +55,38 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
     };
 
     // Update dynamic column value
-    const updateDynamicColumnValue = (
-        rowIndex: number,
-        columnId: string,
-        value: any
-    ) => {
-        console.log("Updating dynamic value:", { rowIndex, columnId, value });
+    const updateDynamicColumnValue = useCallback(
+        (rowIndex: number, columnId: string, value: any) => {
+            console.log("Updating dynamic value:", {
+                rowIndex,
+                columnId,
+                value,
+            });
 
-        setDynamicData((prev) => {
-            const updatedData = { ...prev };
-            if (!updatedData[rowIndex]) {
-                updatedData[rowIndex] = {};
-            }
-            updatedData[rowIndex][columnId] = value;
+            setDynamicData((prev) => {
+                const updatedData = { ...prev };
+                if (!updatedData[rowIndex]) {
+                    updatedData[rowIndex] = {};
+                }
+                updatedData[rowIndex][columnId] = value;
 
-            // Save to backend
-            apiClient
-                .post(`/api/dynamic-columns/${sheetId}/data`, {
-                    rowData: { rowIndex, columnId, value },
-                })
-                .catch((error) => {
-                    console.error("Failed to save dynamic column data:", error);
-                });
+                // Save to backend
+                apiClient
+                    .post(`/api/dynamic-columns/${sheetId}/data`, {
+                        rowData: { rowIndex, columnId, value },
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Failed to save dynamic column data:",
+                            error
+                        );
+                    });
 
-            return updatedData;
-        });
-    };
+                return updatedData;
+            });
+        },
+        [sheetId]
+    );
 
     // Create columns based on headers and dynamic columns
     const columns = useMemo(() => {
@@ -104,6 +110,7 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
         sheetData?.headers,
         sheetData?.originalHeaders,
         sheetData?.dynamicColumns,
+        updateDynamicColumnValue,
     ]);
 
     // Combine Google Sheet data with dynamic column data

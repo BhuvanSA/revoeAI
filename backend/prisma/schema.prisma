@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  tables    Table[]
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
+  email             String              @unique
+  password          String
+  name              String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  tables            Table[]
+  dynamicColumnData DynamicColumnData[]
 }
 
 model Table {
@@ -31,7 +32,7 @@ model Table {
   columns       Column[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  User          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Column {
@@ -41,18 +42,17 @@ model Column {
   position  Int
   isDynamic Boolean  @default(true)
   tableId   String   @db.ObjectId
-  table     Table    @relation(fields: [tableId], references: [id])
+  table     Table    @relation(fields: [tableId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model DynamicColumnData {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  sheetId   String
-  userId    String   @db.ObjectId
-  rowData   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  sheetId String
+  userId  String @db.ObjectId
+  rowData Json
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ColumnType {

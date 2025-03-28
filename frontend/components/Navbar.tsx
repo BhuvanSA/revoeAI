@@ -32,50 +32,48 @@ function Navbar({ className }: { className?: string }) {
                 <Link href="/" className="flex items-center ml-2">
                     Home
                 </Link>
-                <MenuItem setActive={setActive} active={active} item="Features">
+                <MenuItem setActive={setActive} active={active} item="Services">
                     <div className="flex flex-col space-y-2 text-sm">
-                        <HoveredLink href="/">Real-time Data Sync</HoveredLink>
-                        <HoveredLink href="/">Custom Columns</HoveredLink>
-                        <HoveredLink href="/">Data Filtering</HoveredLink>
-                        <HoveredLink href="/">Data Visualization</HoveredLink>
+                        <HoveredLink href="/">Web Development</HoveredLink>
+                        <HoveredLink href="/">Interface Design</HoveredLink>
+                        <HoveredLink href="/">
+                            Search Engine Optimization
+                        </HoveredLink>
+                        <HoveredLink href="/">Branding</HoveredLink>
                     </div>
                 </MenuItem>
-                <MenuItem
-                    setActive={setActive}
-                    active={active}
-                    item="Solutions"
-                >
-                    <div className="text-sm grid grid-cols-2 gap-10 p-2">
+                <MenuItem setActive={setActive} active={active} item="Products">
+                    <div className="  text-sm grid grid-cols-2 gap-10 p-2">
                         <ProductItem
-                            title="Sheet Analyzer"
+                            title="Algochurn"
                             href="/"
                             src="/dashboard-preview.png"
-                            description="Instant analytics for your Google Sheets data with real-time insights."
+                            description="Prepare for tech interviews like never before."
                         />
                         <ProductItem
-                            title="Column Manager"
+                            title="Tailwind Master Kit"
                             href="/"
                             src="/dashboard-preview.png"
-                            description="Add custom columns and data types to enhance your spreadsheet capabilities."
+                            description="Production ready Tailwind css components for your next project"
                         />
                         <ProductItem
-                            title="Data Explorer"
+                            title="Moonbeam"
                             href="/"
                             src="/dashboard-preview.png"
-                            description="Explore and filter your data with an intuitive, responsive interface."
+                            description="Never write from scratch again. Go from idea to blog in minutes."
                         />
                         <ProductItem
-                            title="Enterprise Hub"
+                            title="Rogue"
                             href="/"
                             src="/dashboard-preview.png"
-                            description="Secure, scalable solutions for teams managing large datasets."
+                            description="Respond to government RFPs, RFIs and RFQs 10x faster using AI"
                         />
                     </div>
                 </MenuItem>
                 <MenuItem setActive={setActive} active={active} item="Pricing">
                     <div className="flex flex-col space-y-4 text-sm">
-                        <HoveredLink href="/">Free</HoveredLink>
-                        <HoveredLink href="/">Pro</HoveredLink>
+                        <HoveredLink href="/">Hobby</HoveredLink>
+                        <HoveredLink href="/">Individual</HoveredLink>
                         <HoveredLink href="/">Team</HoveredLink>
                         <HoveredLink href="/">Enterprise</HoveredLink>
                     </div>

@@ -7,7 +7,7 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { User } from "lucide-react";
+import Image from "next/image";
 
 import {
     Card,
@@ -82,7 +82,14 @@ export default function SignIn() {
         <div className="min-h-screen flex items-center justify-center p-4 rounded">
             <Card className="w-full max-w-md bg-card text-card-foreground rounded-lg">
                 <CardHeader>
-                    <User className=" w-20 h-20 flex mx-auto" />
+                    <div className="mx-auto">
+                        <Image
+                            src="/logo.png"
+                            height={75}
+                            width={100}
+                            alt="revoe logo"
+                        />
+                    </div>
                     <CardTitle className="text-2xl text-center font-bold text-foreground">
                         Login
                     </CardTitle>

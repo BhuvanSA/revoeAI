@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -42,11 +42,18 @@ export const MenuItem = ({
                     transition={transition}
                 >
                     {active === item && (
-                        <div className="absolute left-1/2 transform ">
+                        <div
+                            className="fixed z-50"
+                            style={{
+                                top: "calc(var(--menu-height) + 1000px)",
+                                left: "0%",
+                                transform: "translateX(-100%)",
+                            }}
+                        >
                             <motion.div
                                 transition={transition}
                                 layoutId="active"
-                                className="bg-background backdrop-blur-sm rounded-2xl overflow-hidden border border-border shadow-xl"
+                                className="bg-background backdrop-blur-sm rounded-2xl overflow-hidden border border-border shadow-xl mx-auto"
                             >
                                 <motion.div layout className="w-max h-full p-4">
                                     {children}
@@ -71,6 +78,7 @@ export const Menu = ({
         <nav
             onMouseLeave={() => setActive(null)}
             className="relative rounded-full border border-border bg-background shadow-input flex items-center justify-center space-x-4 px-8 py-4"
+            style={{ "--menu-height": "60px" } as React.CSSProperties}
         >
             {children}
         </nav>
@@ -89,11 +97,11 @@ export const ProductItem = ({
     src: string;
 }) => {
     return (
-        <Link href={href} className="flex space-x-2">
+        <Link href={href} className="flex space-x-2 max-w-[300px]">
             <Image
                 src={src}
-                width={140}
-                height={70}
+                width={80}
+                height={45}
                 alt={title}
                 className="shrink-0 rounded-md shadow-2xl"
             />

@@ -33,7 +33,7 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-                <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
+                <div className="border-t border-border mt-8 pt-8 text-center text-muted-secondary">
                     <p>© 2025 RevoeAI. All rights reserved.</p>
                 </div>
             </div>
