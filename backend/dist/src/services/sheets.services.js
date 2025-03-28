@@ -44,11 +44,6 @@ export async function getGoogleSheetData(sheetId) {
         // Get all rows
         const rows = await sheet.getRows();
         console.log(`Fetched ${rows.length} rows from sheet`);
-        // Debug first row
-        if (rows.length > 0) {
-            console.log("First row raw data:", rows[0]._rawData);
-            console.log("First row object:", rows[0].toObject());
-        }
         // Format data - THIS IS THE CRITICAL FIX
         const formattedData = {
             title: doc.title,

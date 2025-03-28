@@ -6,15 +6,44 @@ import SheetViewer from "@/components/SheetViewer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/lib/api-client";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Image from "next/image";
+
+// Function to extract Sheet ID from Google Sheets URL
+const extractSheetId = (url: string): string | null => {
+    try {
+        // Handle both URL and direct ID input
+
+        // If it's already just an ID (no slashes or spaces)
+        if (/^[a-zA-Z0-9_-]+$/.test(url.trim())) {
+            return url.trim();
+        }
+
+        // Extract from full URL
+        const regex = /\/d\/([a-zA-Z0-9_-]+)(?:\/|$)/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            return match[1];
+        }
+
+        return null;
+    } catch (error) {
+        console.error("Error extracting sheet ID:", error);
+        return null;
+    }
+};
 
 export default function Dashboard() {
     const router = useRouter();
-    const { isLoggedIn, setIsLoggedIn } = useAuthContext();
+    const { isLoggedIn, setIsLoggedIn, user } = useAuthContext();
     const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-    const [sheetId, setSheetId] = useState(
-        "1K0ciGZXkw8TXiZbMhLd5bkPVJ5fzCYWrxmbHa0mTFg8"
+    const [sheetUrl, setSheetUrl] = useState(
+        "https://docs.google.com/spreadsheets/d/1K0ciGZXkw8TXiZbMhLd5bkPVJ5fzCYWrxmbHa0mTFg8/edit"
     );
     const [activeSheetId, setActiveSheetId] = useState<string | null>(null);
+    const [urlError, setUrlError] = useState<string | null>(null);
 
     // Manually check auth status on component mount
     useEffect(() => {
@@ -43,8 +72,31 @@ export default function Dashboard() {
     }, [setIsLoggedIn, router]);
 
     const handleViewSheet = () => {
-        if (sheetId) {
-            setActiveSheetId(sheetId);
+        setUrlError(null);
+
+        if (!sheetUrl.trim()) {
+            setUrlError("Please enter a Google Sheet URL");
+            return;
+        }
+
+        const extractedId = extractSheetId(sheetUrl);
+
+        if (!extractedId) {
+            setUrlError("Invalid Google Sheet URL. Please check the format.");
+            return;
+        }
+
+        console.log(`Extracted Sheet ID: ${extractedId} from URL: ${sheetUrl}`);
+        setActiveSheetId(extractedId);
+    };
+
+    const handleLogout = () => {
+        try {
+            router.replace("/auth/logout");
+            setIsLoggedIn(false);
+            router.replace("/auth/login");
+        } catch (error) {
+            console.error("Logout error:", error);
         }
     };
 
@@ -58,31 +110,53 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="container mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-6">Google Sheets Dashboard</h1>
+        <div className="container mx-auto min-h-screen py-8">
+            <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-row">
+                    <Image
+                        width={50}
+                        height={37.5}
+                        src="/logo.png"
+                        alt="logo"
+                    />
+                    <h1 className="text-3xl font-bold">revoeAI</h1>
+                </div>
+                <Button onClick={handleLogout} variant="outline">
+                    Logout
+                </Button>
+            </div>
 
-            <div className="mb-8 p-4 bg-white rounded-lg shadow">
+            <div className="mb-8 p-4 rounded-lg shadow">
                 <h2 className="text-xl font-semibold mb-4">
                     Connect to a Google Sheet
                 </h2>
                 <div className="flex gap-4">
                     <Input
-                        value={sheetId}
-                        onChange={(e) => setSheetId(e.target.value)}
-                        placeholder="Enter Google Sheet ID"
+                        value={sheetUrl}
+                        onChange={(e) => setSheetUrl(e.target.value)}
+                        placeholder="Paste Google Sheet URL here"
                         className="flex-1"
                     />
                     <Button onClick={handleViewSheet}>View Sheet</Button>
                 </div>
+
+                {urlError && (
+                    <Alert variant="destructive" className="mt-2">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>{urlError}</AlertDescription>
+                    </Alert>
+                )}
+
                 <p className="mt-2 text-sm text-gray-500">
-                    The Sheet ID is the part of the URL after /d/ and before
-                    /edit
+                    Paste the full Google Sheet URL (e.g.,
+                    https://docs.google.com/spreadsheets/d/...)
                 </p>
             </div>
 
             {activeSheetId && (
-                <div className="bg-white rounded-lg shadow p-6">
-                    <SheetViewer sheetId={activeSheetId} />
+                <div className="rounded-lg shadow p-6">
+                    <SheetViewer sheetId={activeSheetId} userId={user} />
                 </div>
             )}
         </div>

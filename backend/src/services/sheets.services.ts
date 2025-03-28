@@ -48,17 +48,9 @@ export async function getGoogleSheetData(sheetId: string) {
         // Load headers and rows
         await sheet.loadHeaderRow();
         const headers = sheet.headerValues;
-        console.log("Headers loaded:", headers);
 
         // Get all rows
         const rows = await sheet.getRows();
-        console.log(`Fetched ${rows.length} rows from sheet`);
-
-        // Debug first row
-        if (rows.length > 0) {
-            console.log("First row raw data:", rows[0]._rawData);
-            console.log("First row object:", rows[0].toObject());
-        }
 
         // Format data - THIS IS THE CRITICAL FIX
         const formattedData = {
@@ -77,11 +69,6 @@ export async function getGoogleSheetData(sheetId: string) {
                 // return obj;
             }),
         };
-
-        // Log the first formatted row to verify
-        if (formattedData.rows.length > 0) {
-            console.log("First formatted row:", formattedData.rows[0]);
-        }
 
         // Cache the result
         cache.set(cacheKey, formattedData, 5);

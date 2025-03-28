@@ -14,7 +14,7 @@ const Page = () => {
             const response = await apiClient.get("/api/auth/logout");
             if (response.data.success) {
                 setIsLoggedIn(false);
-                router.push("/auth/login");
+                router.replace("/auth/login");
             } else {
                 console.log("error logging out");
             }

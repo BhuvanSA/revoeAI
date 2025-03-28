@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ThemeToggler } from "@/contexts/theme-provider";
 import LoginLogoutButton from "./LoginLogoutButton";
+import Link from "next/link";
 
 export function NavbarDemo() {
     return (
@@ -23,63 +24,64 @@ function Navbar({ className }: { className?: string }) {
     return (
         <div
             className={cn(
-                "fixed top-10 inset-x-0 max-w-2xl mx-auto z-50",
+                "fixed top-10 inset-x-0 max-w-md mx-auto z-50",
                 className
             )}
         >
             <Menu setActive={setActive}>
-                <MenuItem setActive={setActive} active={active} item="Services">
-                    <div className="flex flex-col space-y-4 text-sm">
-                        <HoveredLink href="/web-dev">
-                            Web Development
-                        </HoveredLink>
-                        <HoveredLink href="/interface-design">
-                            Interface Design
-                        </HoveredLink>
-                        <HoveredLink href="/seo">
-                            Search Engine Optimization
-                        </HoveredLink>
-                        <HoveredLink href="/branding">Branding</HoveredLink>
+                <Link href="/" className="flex items-center ml-2">
+                    Home
+                </Link>
+                <MenuItem setActive={setActive} active={active} item="Features">
+                    <div className="flex flex-col space-y-2 text-sm">
+                        <HoveredLink href="/">Real-time Data Sync</HoveredLink>
+                        <HoveredLink href="/">Custom Columns</HoveredLink>
+                        <HoveredLink href="/">Data Filtering</HoveredLink>
+                        <HoveredLink href="/">Data Visualization</HoveredLink>
                     </div>
                 </MenuItem>
-                <MenuItem setActive={setActive} active={active} item="Products">
-                    <div className="  text-sm grid grid-cols-2 gap-10 p-4">
+                <MenuItem
+                    setActive={setActive}
+                    active={active}
+                    item="Solutions"
+                >
+                    <div className="text-sm grid grid-cols-2 gap-10 p-2">
                         <ProductItem
-                            title="Algochurn"
-                            href="https://algochurn.com"
-                            src="https://assets.aceternity.com/demos/algochurn.webp"
-                            description="Prepare for tech interviews like never before."
+                            title="Sheet Analyzer"
+                            href="/"
+                            src="/dashboard-preview.png"
+                            description="Instant analytics for your Google Sheets data with real-time insights."
                         />
                         <ProductItem
-                            title="Tailwind Master Kit"
-                            href="https://tailwindmasterkit.com"
-                            src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
-                            description="Production ready Tailwind css components for your next project"
+                            title="Column Manager"
+                            href="/"
+                            src="/dashboard-preview.png"
+                            description="Add custom columns and data types to enhance your spreadsheet capabilities."
                         />
                         <ProductItem
-                            title="Moonbeam"
-                            href="https://gomoonbeam.com"
-                            src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.51.31%E2%80%AFPM.png"
-                            description="Never write from scratch again. Go from idea to blog in minutes."
+                            title="Data Explorer"
+                            href="/"
+                            src="/dashboard-preview.png"
+                            description="Explore and filter your data with an intuitive, responsive interface."
                         />
                         <ProductItem
-                            title="Rogue"
-                            href="https://userogue.com"
-                            src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.47.07%E2%80%AFPM.png"
-                            description="Respond to government RFPs, RFIs and RFQs 10x faster using AI"
+                            title="Enterprise Hub"
+                            href="/"
+                            src="/dashboard-preview.png"
+                            description="Secure, scalable solutions for teams managing large datasets."
                         />
                     </div>
                 </MenuItem>
                 <MenuItem setActive={setActive} active={active} item="Pricing">
                     <div className="flex flex-col space-y-4 text-sm">
-                        <HoveredLink href="/hobby">Hobby</HoveredLink>
-                        <HoveredLink href="/individual">Individual</HoveredLink>
-                        <HoveredLink href="/team">Team</HoveredLink>
-                        <HoveredLink href="/enterprise">Enterprise</HoveredLink>
+                        <HoveredLink href="/">Free</HoveredLink>
+                        <HoveredLink href="/">Pro</HoveredLink>
+                        <HoveredLink href="/">Team</HoveredLink>
+                        <HoveredLink href="/">Enterprise</HoveredLink>
                     </div>
                 </MenuItem>
                 <LoginLogoutButton />
-                <ThemeToggler className="mb-3" />
+                <ThemeToggler />
             </Menu>
         </div>
     );

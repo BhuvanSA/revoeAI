@@ -27,23 +27,32 @@ model Table {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   googleSheetId String
+  userId        String   @db.ObjectId
+  columns       Column[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  columns       Column[]
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String   @db.ObjectId
+  User          User     @relation(fields: [userId], references: [id])
 }
 
 model Column {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  dataType  ColumnType
+  dataType  String // TEXT, DATE, etc.
   position  Int
-  isDynamic Boolean    @default(false) // Indicates if the column is added via dashboard
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  table     Table      @relation(fields: [tableId], references: [id], onDelete: Cascade)
-  tableId   String     @db.ObjectId
+  isDynamic Boolean  @default(true)
+  tableId   String   @db.ObjectId
+  table     Table    @relation(fields: [tableId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DynamicColumnData {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sheetId   String
+  userId    String   @db.ObjectId
+  rowData   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ColumnType {

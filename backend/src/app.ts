@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
+import dynamicColumnsRoutes from "./routes/dynamicColumns.routes.js";
 // import tableRoutes from "./routes/table.routes.ts";
 // import { errorHandler } from "./middleware/error.middleware";
 
@@ -28,6 +29,9 @@ app.use("/api/auth", authRoutes);
 app.get("/", (_req, res) => {
     res.send("RevoeAI API is running");
 });
+
+// Dynamic Columns
+app.use("/api/dynamic-columns", dynamicColumnsRoutes);
 
 // Error handling middleware
 // app.use(errorHandler);

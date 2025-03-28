@@ -25,10 +25,13 @@ export const MenuItem = ({
     children?: React.ReactNode;
 }) => {
     return (
-        <div onMouseEnter={() => setActive(item)} className="relative">
+        <div
+            onMouseEnter={() => setActive(item)}
+            className="relative flex items-center"
+        >
             <motion.p
                 transition={{ duration: 0.3 }}
-                className="cursor-pointer text-foreground hover:opacity-[0.9]"
+                className="cursor-pointer hover:opacity-[0.9] m-0 p-0"
             >
                 {item}
             </motion.p>
@@ -39,7 +42,7 @@ export const MenuItem = ({
                     transition={transition}
                 >
                     {active === item && (
-                        <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-4">
+                        <div className="absolute left-1/2 transform ">
                             <motion.div
                                 transition={transition}
                                 layoutId="active"
@@ -67,7 +70,7 @@ export const Menu = ({
     return (
         <nav
             onMouseLeave={() => setActive(null)}
-            className="relative rounded-full border border-border bg-background shadow-input flex justify-center space-x-4 px-8 py-6"
+            className="relative rounded-full border border-border bg-background shadow-input flex items-center justify-center space-x-4 px-8 py-4"
         >
             {children}
         </nav>
