@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import SheetViewer from "@/components/SheetViewer";
@@ -37,7 +37,14 @@ const extractSheetId = (url: string): string | null => {
 };
 
 export default function Dashboard() {
-    const { checkAuth, isLoggedIn, userId } = useAuthContext();
+    const router = useRouter();
+    const { isLoggedIn, userId, isAuthLoading } = useAuthContext();
+
+    useEffect(() => {
+        if (!isLoggedIn && !isAuthLoading) {
+            router.replace("/auth/login");
+        }
+    }, [isAuthLoading, isLoggedIn, router]);
 
     const [sheetUrl, setSheetUrl] = useState(
         "https://docs.google.com/spreadsheets/d/1K0ciGZXkw8TXiZbMhLd5bkPVJ5fzCYWrxmbHa0mTFg8/edit"

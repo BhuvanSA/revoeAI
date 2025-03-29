@@ -45,6 +45,8 @@ export default function SignIn() {
         },
     });
 
+    const { isSubmitting } = form.formState;
+
     async function onSubmit(values: z.infer<typeof loginSchema>) {
         try {
             const response = await apiClient.post("/api/auth/login", {
@@ -147,7 +149,9 @@ export default function SignIn() {
                                     {error}
                                 </div>
                             )}
-                            <LoadingButton type="submit">Sign In</LoadingButton>
+                            <LoadingButton loading={isSubmitting} type="submit">
+                                Sign In
+                            </LoadingButton>
                         </form>
                     </Form>
                 </CardContent>

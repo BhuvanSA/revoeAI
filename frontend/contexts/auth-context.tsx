@@ -11,6 +11,7 @@ type AuthContext = {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
     setUser: React.Dispatch<React.SetStateAction<boolean>>;
     checkAuth: () => Promise<void>;
+    isAuthLoading: boolean;
     userId: string | null;
 };
 
@@ -21,9 +22,10 @@ export default function AuthContextProvider({
 }: AuthContextProviderProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUser] = useState(null);
-    console.log("userID is currently", userId);
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
 
     const checkAuth = async () => {
+        setIsAuthLoading(true);
         try {
             const response = await apiClient.get("/api/auth/checkAuth");
             if (response.data.success) {
@@ -37,6 +39,8 @@ export default function AuthContextProvider({
             console.log("Auth check failed:", error);
             setIsLoggedIn(false);
             setUser(null);
+        } finally {
+            setIsAuthLoading(false);
         }
     };
 
@@ -46,7 +50,14 @@ export default function AuthContextProvider({
 
     return (
         <AuthContext.Provider
-            value={{ isLoggedIn, setIsLoggedIn, checkAuth, userId, setUser }}
+            value={{
+                isLoggedIn,
+                setIsLoggedIn,
+                checkAuth,
+                isAuthLoading,
+                userId,
+                setUser,
+            }}
         >
             {children}
         </AuthContext.Provider>
