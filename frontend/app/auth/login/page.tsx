@@ -35,8 +35,7 @@ import apiClient from "@/lib/api-client";
 export default function SignIn() {
     const router = useRouter();
     const [error, setError] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { setIsLoggedIn } = useAuthContext();
+    const { setIsLoggedIn, setUser } = useAuthContext();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -47,14 +46,15 @@ export default function SignIn() {
     });
 
     async function onSubmit(values: z.infer<typeof loginSchema>) {
-        setIsLoading(true);
         try {
             const response = await apiClient.post("/api/auth/login", {
                 email: values.email,
                 password: values.password,
             });
+            console.log(response.data);
             if (response.data.success) {
                 setIsLoggedIn(true);
+                setUser(response.data.user.id);
                 router.push("/dashboard");
                 toast.success("Login successful!", {
                     description: "You have been logged in successfully",
@@ -68,13 +68,13 @@ export default function SignIn() {
                     type: "manual",
                     message: "Invalid credentials",
                 });
+                setIsLoggedIn(false);
+                setUser(null);
                 setError(response.data.message);
-                setIsLoading(false);
             }
         } catch (error: unknown) {
             setError("An error occurred during login");
             console.error(error);
-            setIsLoading(false);
         }
     }
 
@@ -147,9 +147,7 @@ export default function SignIn() {
                                     {error}
                                 </div>
                             )}
-                            <LoadingButton type="submit" loading={isLoading}>
-                                Sign In
-                            </LoadingButton>
+                            <LoadingButton type="submit">Sign In</LoadingButton>
                         </form>
                     </Form>
                 </CardContent>

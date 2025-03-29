@@ -9,6 +9,7 @@ import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from "next/image";
 import Link from "next/link";
+import { LoadingButton } from "@/components/LoadingButton";
 
 // Function to extract Sheet ID from Google Sheets URL
 const extractSheetId = (url: string): string | null => {
@@ -36,8 +37,8 @@ const extractSheetId = (url: string): string | null => {
 };
 
 export default function Dashboard() {
-    const router = useRouter();
-    const { isLoggedIn } = useAuthContext();
+    const { checkAuth, isLoggedIn, userId } = useAuthContext();
+
     const [sheetUrl, setSheetUrl] = useState(
         "https://docs.google.com/spreadsheets/d/1K0ciGZXkw8TXiZbMhLd5bkPVJ5fzCYWrxmbHa0mTFg8/edit"
     );
@@ -59,19 +60,11 @@ export default function Dashboard() {
             return;
         }
 
-        console.log(`Extracted Sheet ID: ${extractedId} from URL: ${sheetUrl}`);
+        console.log(
+            `Extracted Sheet ID: ${extractedId} from URL: ${sheetUrl} user Id: ${userId}`
+        );
         setActiveSheetId(extractedId);
     };
-
-    if (!isLoggedIn) {
-        router.replace("/auth/login");
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-3"></div>
-                Verifying authentication...
-            </div>
-        );
-    }
 
     return (
         <div className="container mx-auto min-h-screen py-8">
@@ -101,7 +94,9 @@ export default function Dashboard() {
                         placeholder="Paste Google Sheet URL here"
                         className="flex-1"
                     />
-                    <Button onClick={handleViewSheet}>View Sheet</Button>
+                    <LoadingButton onClick={handleViewSheet} className="w-32">
+                        View Sheet
+                    </LoadingButton>
                 </div>
 
                 {urlError && (
@@ -118,7 +113,7 @@ export default function Dashboard() {
                 </p>
             </div>
 
-            {activeSheetId && (
+            {activeSheetId && userId && (
                 <div className="rounded-lg shadow p-6">
                     <SheetViewer sheetId={activeSheetId} />
                 </div>

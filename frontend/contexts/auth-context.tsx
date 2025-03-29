@@ -9,6 +9,7 @@ type AuthContextProviderProps = {
 type AuthContext = {
     isLoggedIn: boolean;
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setUser: React.Dispatch<React.SetStateAction<boolean>>;
     checkAuth: () => Promise<void>;
     userId: string | null;
 };
@@ -20,6 +21,7 @@ export default function AuthContextProvider({
 }: AuthContextProviderProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUser] = useState(null);
+    console.log("userID is currently", userId);
 
     const checkAuth = async () => {
         try {
@@ -30,7 +32,6 @@ export default function AuthContextProvider({
             } else {
                 console.log("Auth check failed");
                 setIsLoggedIn(false);
-                setUser(null);
             }
         } catch (error) {
             console.log("Auth check failed:", error);
@@ -45,7 +46,7 @@ export default function AuthContextProvider({
 
     return (
         <AuthContext.Provider
-            value={{ isLoggedIn, setIsLoggedIn, checkAuth, userId }}
+            value={{ isLoggedIn, setIsLoggedIn, checkAuth, userId, setUser }}
         >
             {children}
         </AuthContext.Provider>
