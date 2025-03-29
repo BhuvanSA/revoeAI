@@ -71,7 +71,7 @@ export default function Home() {
             </section>
 
             {/* Features Section */}
-            <section className="bg-muted py-20">
+            <section id="key-features" className="bg-muted py-20">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-16">
                         Key Features

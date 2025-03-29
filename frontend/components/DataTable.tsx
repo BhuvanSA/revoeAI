@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
             <DataTableToolbar
                 table={table}
                 searchKey={searchKey}
-                searchPlaceholder={`Filter ${searchKey}...`}
+                searchPlaceholder={`Search ${searchKey}...`}
                 onAddColumn={onAddColumn}
             />
 
