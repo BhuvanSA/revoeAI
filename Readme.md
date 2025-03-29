@@ -171,6 +171,47 @@ This application is deployed with:
 -   \`GOOGLE_APPLICATION_CREDENTIALS\`: Path to Google credentials
 -   \`FRONTEND_URL\`: URL to your deployed frontend
 
+## Code Architecture
+
+### Frontend Structure
+
+-   `app/` - Contains Next.js pages using the App Router
+-   `components/` - Reusable UI components
+    -   `ui/` - ShadCN UI elements (buttons, inputs)
+    -   Root components like [`ColumnDefinition.tsx`](frontend/components/ColumnDefinition.tsx) for table functionality
+-   `contexts/` - React context providers for state management
+-   `lib/` - Utility functions and API clients
+
+### Backend Structure
+
+-   `src/` - Main source code
+    -   `controllers/` - API endpoint handlers
+    -   `middleware/` - Express middleware
+    -   `routes/` - API route definitions
+    -   `services/` - Business logic
+-   `lib/` - Shared utilities including [`db.ts`](backend/lib/db.ts) for database access
+-   `prisma/` - Database schema and migrations
+
+## Common Extension Patterns
+
+### Adding a New API Endpoint
+
+1. Create a controller function in `backend/src/controllers/`
+2. Add the route in `backend/src/routes/`
+3. Update the frontend API client to use the new endpoint
+
+### Creating a New Dashboard Widget
+
+1. Create a new component in `frontend/components/`
+2. Add the component to the dashboard layout
+3. Connect to data using the appropriate context or API call
+
+### Adding New Column Types
+
+1. Extend the column definition in [`ColumnDefinition.tsx`](frontend/components/ColumnDefinition.tsx)
+2. Create UI components for the new column type
+3. Update the backend schema if persistence is needed
+
 ## License
 
 MIT
