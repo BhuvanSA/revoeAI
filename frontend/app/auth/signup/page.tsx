@@ -26,7 +26,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { LoadingButton } from "@/components/LoadingButton";
-import { useAuthContext } from "@/contexts/auth-context";
 import { toast } from "sonner";
 import Link from "next/link";
 import apiClient from "@/lib/api-client";

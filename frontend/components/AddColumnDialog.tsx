@@ -18,7 +18,6 @@ interface AddColumnDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     sheetId: string;
-    userId: string;
     onColumnAdded: () => void;
 }
 
@@ -26,7 +25,6 @@ export function AddColumnDialog({
     open,
     setOpen,
     sheetId,
-    userId,
     onColumnAdded,
 }: AddColumnDialogProps) {
     const [columnName, setColumnName] = useState("");

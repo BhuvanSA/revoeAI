@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useCallback, useState, useMemo } from "react";
-import { io, Socket } from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import { useAuthContext } from "@/contexts/auth-context";
 import { DataTable } from "./DataTable";
 import {
@@ -16,7 +16,6 @@ import apiClient from "@/lib/api-client";
 
 interface SheetViewerProps {
     sheetId: string;
-    userId: string;
 }
 
 interface SheetData {
@@ -28,8 +27,8 @@ interface SheetData {
     dynamicColumns?: DynamicColumn[];
 }
 
-const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
-    const [socket, setSocket] = useState<Socket | null>(null);
+const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId }) => {
+    const [socket, setSocket] = useState<typeof Socket | null>(null);
     const [sheetData, setSheetData] = useState<SheetData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -37,10 +36,10 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
     const [dynamicData, setDynamicData] = useState<
         Record<number, Record<string, any>>
     >({});
-    const { user } = useAuthContext();
+    const { userId } = useAuthContext();
 
     // Load dynamic column data
-    const loadDynamicData = async () => {
+    const loadDynamicData = useCallback(async () => {
         try {
             const response = await apiClient.get(
                 `/api/dynamic-columns/${sheetId}/data`
@@ -52,7 +51,7 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
         } catch (error) {
             console.error("Failed to load dynamic column data:", error);
         }
-    };
+    }, [sheetId]);
 
     // Update dynamic column value
     const updateDynamicColumnValue = useCallback(
@@ -153,33 +152,16 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
         }
     };
 
-    // Add this function to test your dynamic columns setup
-    const testDynamicColumns = async () => {
-        try {
-            console.log("Testing dynamic columns setup...");
-            const response = await apiClient.get(
-                `/api/dynamic-columns/${sheetId}/debug`
-            );
-            console.log("Debug response:", response.data);
-        } catch (error) {
-            console.error("Error testing dynamic columns:", error);
-        }
-    };
-
     useEffect(() => {
         // Load dynamic data on mount
         console.log("Current user ID", userId);
         if (userId) {
             loadDynamicData();
-            testDynamicColumns(); // Add this line to test columns
         }
 
         // Initialize socket connection
         const socketInstance = io(
-            process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000",
-            {
-                withCredentials: true,
-            }
+            process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000"
         );
 
         setSocket(socketInstance);
@@ -256,7 +238,7 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
             socketInstance.emit("unsubscribe", { sheetId });
             socketInstance.disconnect();
         };
-    }, [sheetId, userId]);
+    }, [sheetId, userId, loadDynamicData]);
 
     if (loading) {
         return (
@@ -301,7 +283,6 @@ const SheetViewer: React.FC<SheetViewerProps> = ({ sheetId, userId }) => {
                 open={isAddColumnOpen}
                 setOpen={setIsAddColumnOpen}
                 sheetId={sheetId}
-                userId={userId}
                 onColumnAdded={handleColumnAdded}
             />
         </>

@@ -1,14 +1,14 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import SheetViewer from "@/components/SheetViewer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import apiClient from "@/lib/api-client";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from "next/image";
+import Link from "next/link";
 
 // Function to extract Sheet ID from Google Sheets URL
 const extractSheetId = (url: string): string | null => {
@@ -37,39 +37,12 @@ const extractSheetId = (url: string): string | null => {
 
 export default function Dashboard() {
     const router = useRouter();
-    const { isLoggedIn, setIsLoggedIn, user } = useAuthContext();
-    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+    const { isLoggedIn } = useAuthContext();
     const [sheetUrl, setSheetUrl] = useState(
         "https://docs.google.com/spreadsheets/d/1K0ciGZXkw8TXiZbMhLd5bkPVJ5fzCYWrxmbHa0mTFg8/edit"
     );
     const [activeSheetId, setActiveSheetId] = useState<string | null>(null);
     const [urlError, setUrlError] = useState<string | null>(null);
-
-    // Manually check auth status on component mount
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await apiClient.get("/api/auth/checkAuth");
-                console.log("Auth check response:", response.data);
-
-                if (response.data.success) {
-                    setIsLoggedIn(true);
-                } else {
-                    console.log("Auth check failed, redirecting");
-                    setIsLoggedIn(false);
-                    router.replace("/auth/login");
-                }
-            } catch (error) {
-                console.error("Auth check error:", error);
-                setIsLoggedIn(false);
-                router.replace("/auth/login");
-            } finally {
-                setIsCheckingAuth(false);
-            }
-        };
-
-        checkAuth();
-    }, [setIsLoggedIn, router]);
 
     const handleViewSheet = () => {
         setUrlError(null);
@@ -90,17 +63,8 @@ export default function Dashboard() {
         setActiveSheetId(extractedId);
     };
 
-    const handleLogout = () => {
-        try {
-            router.replace("/auth/logout");
-            setIsLoggedIn(false);
-            router.replace("/auth/login");
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
-    };
-
-    if (isCheckingAuth || !isLoggedIn) {
+    if (!isLoggedIn) {
+        router.replace("/auth/login");
         return (
             <div className="flex justify-center items-center h-screen">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-3"></div>
@@ -121,9 +85,9 @@ export default function Dashboard() {
                     />
                     <h1 className="text-3xl font-bold">revoeAI</h1>
                 </div>
-                <Button onClick={handleLogout} variant="outline">
-                    Logout
-                </Button>
+                <Link href="/auth/logout">
+                    <Button variant="outline">Logout</Button>
+                </Link>
             </div>
 
             <div className="mb-8 p-4 rounded-lg shadow">
@@ -156,7 +120,7 @@ export default function Dashboard() {
 
             {activeSheetId && (
                 <div className="rounded-lg shadow p-6">
-                    <SheetViewer sheetId={activeSheetId} userId={user} />
+                    <SheetViewer sheetId={activeSheetId} />
                 </div>
             )}
         </div>

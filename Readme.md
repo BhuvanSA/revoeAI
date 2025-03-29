@@ -1,5 +1,9 @@
 # Google Sheets Dashboard
 
+![Dashboard Preview](frontend/public/dashboard-preview.png)
+
+[**Watch Demo Video**](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
 A fullstack dashboard application that integrates with Google Sheets, built with Next.js and Node.js. This project allows users to create dynamic tables from Google Sheets data and add custom columns to the dashboard display.
 
 ## Features
@@ -151,8 +155,8 @@ npm start
 
 This application is deployed with:
 
--   Frontend: Vercel (https://your-app.vercel.app)
--   Backend: Render (https://your-api.onrender.com)
+-   Frontend: Vercel (https://revoe-ai-iota.vercel.app/)
+-   Backend: Render
 
 ## Environment Variables for Deployment
 
@@ -173,4 +177,4 @@ MIT
 
 ## Contact
 
-If you have any questions or issues, please contact: bhuvansa@bhuvansa.com
+If you have any inquiries or require assistance, please [email me](mailto:bhuvansa@bhuvansa.com) or visit my [contact page](https://bhuvansa.com/contact) for further communication.
