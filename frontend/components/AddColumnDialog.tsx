@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import apiClient from "@/lib/api-client";
+import { LoadingButton } from "./LoadingButton";
 
 type ColumnType = "TEXT" | "DATE";
 
@@ -125,9 +126,13 @@ export function AddColumnDialog({
                     <Button variant="outline" onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit} disabled={isSubmitting}>
+                    <LoadingButton
+                        type="submit"
+                        onClick={handleSubmit}
+                        loading={isSubmitting}
+                    >
                         {isSubmitting ? "Adding..." : "Add Column"}
-                    </Button>
+                    </LoadingButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
