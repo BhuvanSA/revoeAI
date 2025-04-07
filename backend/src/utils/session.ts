@@ -7,8 +7,8 @@ export type SessionPayload = {
     role?: string;
 };
 
-const SECRET_KEY = process.env.JWT_SECRET || "your-secret-key";
-const EXPIRES_IN = process.env.JWT_EXPIRE || "1d";
+const SECRET_KEY = process.env["JWT_SECRET"] || "your-secret-key";
+const EXPIRES_IN = process.env["JWT_EXPIRE"] || "1d";
 
 // Parse time strings like "2h", "1d" into milliseconds
 function parseTimeString(timeStr: string): number {
@@ -59,7 +59,7 @@ export const createSession = async (
     const token = await encrypt(payload);
     const expiresInMs = parseTimeString(EXPIRES_IN as string);
 
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env["NODE_ENV"] === "production";
 
     const cookieOptions: CookieOptions = {
         httpOnly: true,
@@ -82,7 +82,7 @@ export const getSession = async (
 };
 
 export const clearSession = (res: Response): void => {
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env["NODE_ENV"] === "production";
 
     res.clearCookie("session", {
         httpOnly: true,

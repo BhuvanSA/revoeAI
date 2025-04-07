@@ -1,4 +1,3 @@
-import { Server as HttpServer } from "http";
 import { Server, Socket } from "socket.io";
 import { getGoogleSheetData } from "./services/sheets.services.js";
 import prisma from "../lib/db.js";
@@ -42,7 +41,7 @@ async function getDynamicColumnsForSheet(sheetId, userId) {
 export function setupWebsocket(server) {
     const io = new Server(server, {
         cors: {
-            origin: process.env.CLIENT_URL || "http://localhost:3000",
+            origin: process.env["CLIENT_URL"] || "http://localhost:3000",
             credentials: true,
         },
     });
