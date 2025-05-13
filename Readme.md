@@ -2,7 +2,7 @@
 
 ![Dashboard Preview](frontend/public/dashboard-preview.png)
 
-[**Watch Demo Video**]([https://www.loom.com/share/8e942a9477ac4ad1b32d32da5ea49804?sid=70873101-7ace-4474-9152-c5bdcd1997d5])
+[**Watch Demo Video**]([(https://www.loom.com/share/8e942a9477ac4ad1b32d32da5ea49804?sid=70873101-7ace-4474-9152-c5bdcd1997d5)])
 
 A fullstack dashboard application that integrates with Google Sheets, built with Next.js and Node.js. This project allows users to create dynamic tables from Google Sheets data and add custom columns to the dashboard display.
 
